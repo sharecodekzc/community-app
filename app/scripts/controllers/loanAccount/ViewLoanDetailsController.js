@@ -579,6 +579,32 @@
                 scope.viewReportDetails = $sce.trustAsResourceUrl(scope.baseURL);
 
             };
+			scope.viewprintdetailsonly = function () {
+                //scope.printbtn = true;
+                scope.report = true;
+                scope.viewTransactionReport = false;
+                scope.viewReport = true;
+                scope.hidePentahoReport = true;
+                scope.formData.outputType = 'PDF';
+                scope.baseURL = $rootScope.hostUrl + API_VERSION + "/runreports/" + encodeURIComponent("Client Loan Account Schedule only");
+                scope.baseURL += "?output-type=" + encodeURIComponent(scope.formData.outputType) + "&tenantIdentifier=" + $rootScope.tenantIdentifier+"&locale="+scope.optlang.code;
+
+                var reportParams = "";
+                scope.startDate = dateFilter(scope.date.fromDate, 'yyyy-MM-dd');
+                scope.endDate = dateFilter(scope.date.toDate, 'yyyy-MM-dd');
+                var paramName = "R_startDate";
+                reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(scope.startDate)+ "&";
+                paramName = "R_endDate";
+                reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(scope.endDate)+ "&";
+                paramName = "R_selectLoan";
+                reportParams += encodeURIComponent(paramName) + "=" + encodeURIComponent(scope.loandetails.accountNo);
+                if (reportParams > "") {
+                    scope.baseURL += "&" + reportParams;
+                }
+                // allow untrusted urls for iframe http://docs.angularjs.org/error/$sce/insecurl
+                scope.viewReportDetails = $sce.trustAsResourceUrl(scope.baseURL);
+
+            };
 
             scope.viewloantransactionreceipts = function (transactionId) {
                 //scope.printbtn = true;
